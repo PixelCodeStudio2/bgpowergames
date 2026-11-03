@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BG POWER - Master Control Panel</title>
+    <style>
+        body { background: #0a0f1d; color: #fff; font-family: sans-serif; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column; }
+        .admin-box { max-width: 650px; width: 100%; background: #141b2f; padding: 30px; border-radius: 14px; border: 2px solid #ff0055; box-shadow: 0 0 25px rgba(255, 0, 85, 0.2); margin-bottom: 25px; }
+        h2 { text-align: center; color: #ff0055; margin-bottom: 25px; font-weight: bold; }
+        .section-title { color: #00ffaa; border-bottom: 1px solid #222d4a; padding-bottom: 8px; margin-top: 10px; margin-bottom: 20px; font-size: 1.2rem; font-weight: bold; }
+        .input-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; color: #8a99ad; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; background: #1a233d; border: 1px solid #222d4a; color: white; border-radius: 8px; font-size: 0.95rem; }
+        input:focus { border-color: #ff0055; outline: none; }
+        button { width: 100%; padding: 14px; background: #ff0055; border: none; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; font-size: 1rem; }
+        button:hover { background: #d60048; }
+        #panel-content { display: none; width: 100%; max-width: 650px; }
+        .code-output { margin-top: 25px; background: #050810; padding: 15px; border-radius: 8px; border: 1px dashed #3b4b75; }
+        textarea { width: 100%; height: 130px; background: #111; color: #00ffaa; font-family: monospace; resize: none; border: none; border-radius: 6px; padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-box" id="auth-box">
+        <h2>🔐 Admin Security Verification</h2>
+        <div class="input-group">
+            <label>Enter Control Key Password:</label>
+            <input type="password" id="admin-pass" placeholder="••••••••">
+        </div>
+        <button onclick="verifyAccess()">Login to Panel</button>
+    </div>
+
+    <div id="panel-content">
+        
+        <div class="admin-box">
+            <div class="section-title">🎮 SECTION 1: Game Uploader</div>
+            <div class="input-group">
+                <label>Game Name / Title:</label>
+                <input type="text" id="game-name" placeholder="E.g., GTA V Mobile Lite Modified">
+            </div>
+            <div class="input-group">
+                <label>Game Image Link (Paste direct photo link from Google Images):</label>
+                <input type="url" id="game-img-url" placeholder="https://example.com">
+            </div>
+            <div class="input-group">
+                <label>MediaFire APK Download Link:</label>
+                <input type="url" id="game-link-url" placeholder="https://mediafire.com...">
+            </div>
+            <button onclick="buildGameDatabase()">Add Game & Generate Code</button>
+            
+            <div class="code-output" id="game-output-area" style="display: none;">
+                <p style="color: #00ffaa; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px;">📋 Copy this code, click edit on 'games.json' in GitHub, clear old code and paste this:</p>
+                <textarea id="game-json-out" readonly></textarea>
+            </div>
+        </div>
+
+        <div class="admin-box">
+            <div class="section-title">💰 SECTION 2: Pop-up & High RPM Ads Manager</div>
+            <p style="font-size: 0.8rem; color: #8a99ad; margin-bottom: 15px;">Note: Kisi bhi ad ko hide rakhne ke liye uska box khali chhod kar button dabayein.</p>
+            
+            <div class="input-group">
+                <label>1. Popunder Ad URL (High Earnings - Click karne par back link khulegi):</label>
+                <input type="url" id="ad-popunder" placeholder="https://adsterra.com...">
+            </div>
+            <div class="input-group">
+                <label>2. Top Banner Ad Link/Iframe URL:</label>
+                <input type="url" id="ad-top-banner" placeholder="https://example.com">
+            </div>
+            <div class="input-group">
+                <label>3. Bottom Banner Ad Link/Iframe URL:</label>
+                <input type="url" id="ad-bottom-banner" placeholder="https://example.com">
+            </div>
+            <button onclick="buildAdConfiguration()" style="background: #00ffaa; color: #0a0f1d;">Save Ads & Generate Config Code</button>
+            
+            <div class="code-output" id="ad-output-area" style="display: none;">
+                <p style="color: #00ffaa; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px;">📋 Copy this code, click edit on 'config.json' in GitHub, clear old code and paste this:</p>
+                <textarea id="ad-json-out" readonly></textarea>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function verifyAccess() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === "BG@2007") {
+                document.getElementById('auth-box').style.display = 'none';
+                document.getElementById('panel-content').style.display = 'block';
+            } else { alert("❌ Galat Password! Access Denied."); }
+        }
+
+        let currentGamesList = [];
+
+        function buildGameDatabase() {
+            const name = document.getElementById('game-name').value;
+            const image = document.getElementById('game-img-url').value;
+            const link = document.getElementById('game-link-url').value;
+            if(!name || !image || !link) { alert("Bhai, saare details fill karein!"); return; }
+            
+            currentGamesList.push({ name, image, link });
+            document.getElementById('game-json-out').value = JSON.stringify(currentGamesList, null, 4);
+            document.getElementById('game-output-area').style.display = 'block';
+            
+            document.getElementById('game-name').value = '';
+            document.getElementById('game-img-url').value = '';
+            document.getElementById('game-link-url').value = '';
+        }
+
+        function buildAdConfiguration() {
+            const popunderUrl = document.getElementById('ad-popunder').value;
+            const topAdUrl = document.getElementById('ad-top-banner').value;
+            const bottomAdUrl = document.getElementById('ad-bottom-banner').value;
+
+            const configObject = { popunderUrl, topAdUrl, bottomAdUrl };
+            document.getElementById('ad-json-out').value = JSON.stringify(configObject, null, 4);
+            document.getElementById('ad-output-area').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
