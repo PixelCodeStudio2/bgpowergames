@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BG GAMING POWER - Ultimate Game Zone</title>
+    <style>
+        :root {
+            --primary: #ff0055;
+            --primary-glow: rgba(255, 0, 85, 0.4);
+            --bg: #0a0f1d;
+            --card-bg: #141b2f;
+            --text: #ffffff;
+            --text-secondary: #8a99ad;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); overflow-x: hidden; }
+        
+        header { background: linear-gradient(135deg, #141b2f, #0a0f1d); padding: 30px 20px; text-align: center; border-bottom: 3px solid var(--primary); display: flex; flex-direction: column; align-items: center; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+        .logo-container { width: 90px; height: 90px; margin-bottom: 15px; background: #0a0f1d; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        header h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: 1px; color: #fff; text-shadow: 0 0 15px var(--primary); }
+        header p { color: var(--text-secondary); font-size: 1rem; margin-top: 5px; font-weight: 500; }
+
+        .dynamic-ad-frame { width: 100%; max-width: 728px; margin: 0 auto; display: none; justify-content: center; align-items: center; padding: 15px 0; }
+        .dynamic-ad-frame iframe { border: none; width: 100%; height: 90px; background: transparent; }
+
+        .main-container { max-width: 1600px; margin: 0 auto; padding: 20px; }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        
+        .game-card { background-color: var(--card-bg); border-radius: 14px; overflow: hidden; border: 1px solid #222d4a; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; }
+        .game-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 12px 24px var(--primary-glow); }
+        .game-img { width: 100%; height: 190px; object-fit: cover; border-bottom: 2px solid #222d4a; background: #1a233d; }
+        .game-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .game-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: #fff; }
+        
+        .download-btn { background: linear-gradient(90deg, var(--primary), #d60048); color: white; border: none; padding: 14px; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700; display: block; cursor: pointer; transition: all 0.2s; margin-top: 10px; font-size: 1rem; }
+
+        #locker-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 16, 0.98); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; transition: all 0.5s ease-out; }
+        .locker-box { background: var(--card-bg); border: 2px solid var(--primary); padding: 45px 35px; border-radius: 20px; text-align: center; max-width: 480px; width: 100%; box-shadow: 0 0 40px rgba(255, 0, 85, 0.4); }
+        .locker-box h2 { font-size: 2rem; margin-bottom: 15px; color: #fff; }
+        .locker-box p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 30px; line-height: 1.6; }
+        .sub-btn { background: #ff0000; color: #fff; padding: 16px 32px; font-weight: 800; border-radius: 55px; text-decoration: none; display: inline-block; font-size: 1.15rem; box-shadow: 0 6px 20px rgba(255,0,0,0.5); }
+        .timer-text { font-size: 0.9rem; color: #5c6e9b; margin-top: 15px; font-weight: 500; }
+
+        footer { text-align: center; padding: 40px 20px; color: #4b5563; font-size: 0.95rem; border-top: 1px solid #141b2f; margin-top: 60px; }
+
+        @media(min-width: 1024px) { .games-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media(min-width: 1440px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media(min-width: 2560px) { .games-grid { grid-template-columns: repeat(6, 1fr); } }
+    </style>
+</head>
+<body>
+
+    <div id="locker-overlay">
+        <div class="locker-box">
+            <h2>🔒 Content Locked!</h2>
+            <p>Bhai, saare high-speed direct links unlock karne ke liye hamare channel ko subscribe karne ke baad wapas aayein ya 20 seconds wait korein.</p>
+            <a href="https://youtube.com" target="_blank" class="sub-btn" onclick="startUnlock()">🔴 SUBSCRIBE CHANNEL</a>
+            <div class="timer-text">Website will auto-unlock in <span id="timer-count" style="color: var(--primary); font-weight: 800;">20</span> seconds...</div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://w3.org">
+                <path d="M2 7L12 2L22 7L12 12L2 7Z" fill="#ff0055"/>
+                <path d="M2 17L12 22L22 17" stroke="#ff0055" stroke-width="2" stroke-linecap="round"/>
+                <path d="M2 12L12 17L22 12" stroke="#ff0055" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <h1>BG GAMING POWER</h1>
+        <p>Developer: BG GAMING POWER Team | Total Games: <span id="total-count">0</span></p>
+    </header>
+
+    <div class="dynamic-ad-frame" id="top-ad-slot"></div>
+
+    <div class="main-container">
+        <div class="games-grid" id="games-container"></div>
+    </div>
+
+    <div class="dynamic-ad-frame" id="bottom-ad-slot"></div>
+
+    <footer>
+        <p>&copy; 2026 BG GAMING POWER. Lifetime Free Game Station.</p>
+    </footer>
+
+    <script>
+        let timeLeft = 20;
+        const timerElement = document.getElementById("timer-count");
+        const overlay = document.getElementById("locker-overlay");
+        let adConfiguration = {};
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                unlockWebsite();
+            }
+        }, 1000);
+
+        function startUnlock() {
+            setTimeout(unlockWebsite, 2500);
+        }
+
+        function unlockWebsite() {
+            overlay.style.opacity = "0";
+            setTimeout(() => {
+                overlay.style.display = "none";
+                document.body.style.overflow = "auto";
+                triggerPopunder();
+            }, 500);
+        }
+
+        async function initSetupEngine() {
+            try {
+                const configRes = await fetch('config.json');
+                adConfiguration = await configRes.json();
+                
+                if(adConfiguration.topAdUrl && adConfiguration.topAdUrl.trim() !== "") {
+                    const topSlot = document.getElementById('top-ad-slot');
+                    topSlot.style.display = "flex";
+                    topSlot.innerHTML = `<iframe src="${adConfiguration.topAdUrl}"></iframe>`;
+                }
+                if(adConfiguration.bottomAdUrl && adConfiguration.bottomAdUrl.trim() !== "") {
+                    const bottomSlot = document.getElementById('bottom-ad-slot');
+                    bottomSlot.style.display = "flex";
+                    bottomSlot.innerHTML = `<iframe src="${adConfiguration.bottomAdUrl}"></iframe>`;
+                }
+            } catch(e) { console.log("Config clear."); }
+        }
+
+        function triggerPopunder() {
+            if(adConfiguration.popunderUrl && adConfiguration.popunderUrl.trim() !== "") {
+                window.addEventListener('click', function popClick() {
+                    window.open(adConfiguration.popunderUrl, '_blank');
+                    window.removeEventListener('click', popClick);
+                });
+            }
+        }
+
+        async function fetchGamesList() {
+            try {
+                const res = await fetch('games.json');
+                const gamesData = await res.json();
+                document.getElementById('total-count').textContent = gamesData.length;
+                
+                const container = document.getElementById('games-container');
+                container.innerHTML = '';
+                
+                gamesData.forEach(game => {
+                    const card = document.createElement('div');
+                    card.className = 'game-card';
+                    card.innerHTML = `
+                        <img src="${game.image}" alt="${game.name}" class="game-img" onerror="this.src='https://placeholder.com'">
+                        <div class="game-info">
+                            <div class="game-title">${game.name}</div>
+                            <button onclick="goToDownload('${game.link}')" class="download-btn">📥 Download APK</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) { console.log("JSON empty."); }
+        }
+
+        function goToDownload(mediafireLink) {
+            if(adConfiguration.popunderUrl && adConfiguration.popunderUrl.trim() !== "") {
+                window.open(adConfiguration.popunderUrl, '_blank');
+            }
+            setTimeout(() => { window.open(mediafireLink, '_blank'); }, 300);
+        }
+        
+        window.onload = () => {
+            document.body.style.overflow = "hidden";
+            initSetupEngine();
+            fetchGamesList();
+        };
+    </script>
+</body>
+</html>
